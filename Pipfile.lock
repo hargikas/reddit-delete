@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ddf23795689e0cea209ba46951edfc52e2ae216f08a01902a7d1c87c257f2abd"
+            "sha256": "ea780ba58b2f9714f85413b2fef467a9dfaffd0e29cea47a1eee3df419294093"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -41,6 +41,12 @@
             ],
             "version": "==3.0.4"
         },
+        "fire": {
+            "hashes": [
+                "sha256:d84cea3e37c7f17fe8751688b678d77cca76fb0574db5ae171ca593511c0395c"
+            ],
+            "version": "==0.1.2"
+        },
         "idna": {
             "hashes": [
                 "sha256:8c7309c718f94b3a625cb648ace320157ad16ff131ae0af362c9f21b80ef6ec4",
@@ -68,6 +74,19 @@
                 "sha256:9c443e7324ba5b85070c4a818ade28bfabedf16ea10206da1132edaa6dda237e"
             ],
             "version": "==2.18.4"
+        },
+        "six": {
+            "hashes": [
+                "sha256:832dc0e10feb1aa2c68dcc57dbb658f1c7e65b9b61af69048abc87a2db00a0eb",
+                "sha256:70e8a77beed4562e7f14fe23a786b54f6296e34344c23bc42f07b15018ff98e9"
+            ],
+            "version": "==1.11.0"
+        },
+        "tendo": {
+            "hashes": [
+                "sha256:823f75cbc1c3fe96a25e32a4ac315e0a70f440c844e5ba168cef0f11ca817a62"
+            ],
+            "version": "==0.2.8"
         },
         "update-checker": {
             "hashes": [

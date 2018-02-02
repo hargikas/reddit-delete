@@ -57,21 +57,21 @@ def delete_content(subreddits, days_old):
     # Quering for comments
     for query in get_all_queries(me_redditor.comments):
         for comment in query(limit=None):
-            if ((comment.subreddit in subreddits_permitted)
+            if ((str(comment.subreddit) in subreddits_permitted)
                     and (is_days_old(get_date(comment), days_old))):
                 comment.delete()
                 deleted['comments'] += 1
-                sub_cnt[comment.subreddit] += 1
+                sub_cnt[str(comment.subreddit)] += 1
     print("Comments deleted: %d" % (deleted['comments']))
 
     # Quering for submissions
     for query in get_all_queries(me_redditor.submissions):
         for submission in query(limit=None):
-            if ((submission.subreddit in subreddits_permitted)
+            if ((str(submission.subreddit) in subreddits_permitted)
                     and (is_days_old(get_date(submission), days_old))):
                 submission.delete()
                 deleted['submissions'] += 1
-                sub_cnt[submission.subreddit] += 1
+                sub_cnt[str(submission.subreddit)] += 1
     print("Submissions deleted: %d" % (deleted['submissions']))
     print("---")
     for i in sorted(sub_cnt):

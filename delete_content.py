@@ -40,7 +40,8 @@ def sane_arguments(fire_input):
     elif type_of == 'dict':
         result = [key for key in fire_input]
 
-    result = [i if type(i).__name__ == 'str' else str(i) for i in result]
+    result = [i.lower() if type(i).__name__ == 'str' else str(i)
+                for i in result]
     return result
 
 def delete_content(subreddits, days_old):
@@ -57,7 +58,7 @@ def delete_content(subreddits, days_old):
     # Quering for comments
     for query in get_all_queries(me_redditor.comments):
         for comment in query(limit=None):
-            if ((str(comment.subreddit) in subreddits_permitted)
+            if ((str(comment.subreddit).lower() in subreddits_permitted)
                     and (is_days_old(get_date(comment), days_old))):
                 comment.delete()
                 deleted['comments'] += 1
@@ -67,7 +68,7 @@ def delete_content(subreddits, days_old):
     # Quering for submissions
     for query in get_all_queries(me_redditor.submissions):
         for submission in query(limit=None):
-            if ((str(submission.subreddit) in subreddits_permitted)
+            if ((str(submission.subreddit).lower() in subreddits_permitted)
                     and (is_days_old(get_date(submission), days_old))):
                 submission.delete()
                 deleted['submissions'] += 1

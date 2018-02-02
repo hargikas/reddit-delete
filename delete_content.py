@@ -1,6 +1,7 @@
 """This module deletes submissions and comments that are old enough"""
 from collections import Counter
 import datetime
+import random
 # Third-party libraries
 import praw
 import fire
@@ -19,8 +20,10 @@ def is_days_old(input_date, days):
 def get_all_queries(sublisting):
     """A helper funtction that return all 4 functions that you can query
     a PRAW Sublisting object"""
-    return [sublisting.controversial, sublisting.hot,
-            sublisting.new, sublisting.top]
+    result = [sublisting.controversial, sublisting.hot,
+              sublisting.new, sublisting.top]
+    random.shuffle(result)
+    return result
 
 def sane_arguments(fire_input):
     """Transform the fire argument into a list of strings"""
@@ -44,6 +47,7 @@ def delete_content(subreddits, days_old):
     """The main function of this module, which deletes any submission or
     comment that resides in the [subreddits] and is at least [days_old]"""
     deleted = Counter()
+    sub_cnt = Counter()
     subreddits_permitted = sane_arguments(subreddits)
 
     # Create the Reddit Instance based on the configuration (praw.ini)
@@ -57,6 +61,7 @@ def delete_content(subreddits, days_old):
                     and (is_days_old(get_date(comment), days_old))):
                 comment.delete()
                 deleted['comments'] += 1
+                sub_cnt[comment.subreddit] += 1
     print("Comments deleted: %d" % (deleted['comments']))
 
     # Quering for submissions
@@ -66,7 +71,11 @@ def delete_content(subreddits, days_old):
                     and (is_days_old(get_date(submission), days_old))):
                 submission.delete()
                 deleted['submissions'] += 1
+                sub_cnt[submission.subreddit] += 1
     print("Submissions deleted: %d" % (deleted['submissions']))
+    print("---")
+    for i in sorted(sub_cnt):
+        print("Total deleted content in /r/%s: %d" % (i, sub_cnt[i]))
 
 def main():
     """The main function of the script. It prohibits to run in parallel

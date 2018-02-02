@@ -1,5 +1,7 @@
 """This module deletes submissions and comments that are old enough"""
+from collections import Counter
 import datetime
+# Third-party libraries
 import praw
 import fire
 from tendo import singleton
@@ -41,9 +43,7 @@ def sane_arguments(fire_input):
 def delete_content(subreddits, days_old):
     """The main function of this module, which deletes any submission or
     comment that resides in the [subreddits] and is at least [days_old]"""
-    deleted_comments = 0
-    deleted_submissions = 0
-
+    deleted = Counter()
     subreddits_permitted = sane_arguments(subreddits)
 
     # Create the Reddit Instance based on the configuration (praw.ini)
@@ -56,8 +56,8 @@ def delete_content(subreddits, days_old):
             if ((comment.subreddit in subreddits_permitted)
                     and (is_days_old(get_date(comment), days_old))):
                 comment.delete()
-                deleted_comments += 1
-    print("Comments deleted: %d" % (deleted_comments))
+                deleted['comments'] += 1
+    print("Comments deleted: %d" % (deleted['comments']))
 
     # Quering for submissions
     for query in get_all_queries(me_redditor.submissions):
@@ -65,8 +65,8 @@ def delete_content(subreddits, days_old):
             if ((submission.subreddit in subreddits_permitted)
                     and (is_days_old(get_date(submission), days_old))):
                 submission.delete()
-                deleted_submissions += 1
-    print("Submissions deleted: %d" % (deleted_submissions))
+                deleted['submissions'] += 1
+    print("Submissions deleted: %d" % (deleted['submissions']))
 
 def main():
     """The main function of the script. It prohibits to run in parallel

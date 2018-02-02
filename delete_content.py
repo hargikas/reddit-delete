@@ -1,22 +1,27 @@
+"""This module deletes submissions and comments that are old enough"""
 import datetime
-from tendo import singleton
 import praw
 import fire
+from tendo import singleton
 
 def get_date(reddit_object):
+    """Transform a PRAW timstamp into datetime"""
     time = reddit_object.created
     return datetime.datetime.fromtimestamp(time)
 
 def is_days_old(input_date, days):
+    """Checks whether the [input] datetime object is at least [days] old"""
     check_date = datetime.datetime.utcnow() - datetime.timedelta(days=days)
     return check_date > input_date
 
 def get_all_queries(sublisting):
+    """A helper funtction that return all 4 functions that you can query
+    a PRAW Sublisting object"""
     return [sublisting.controversial, sublisting.hot,
             sublisting.new, sublisting.top]
 
 def sane_arguments(fire_input):
-    """Transform the argument into a list of strings"""
+    """Transform the fire argument into a list of strings"""
     type_of = type(fire_input).__name__
     result = []
 
@@ -34,6 +39,8 @@ def sane_arguments(fire_input):
     return result
 
 def delete_content(subreddits, days_old):
+    """The main function of this module, which deletes any submission or
+    comment that resides in the [subreddits] and is at least [days_old]"""
     deleted_comments = 0
     deleted_submissions = 0
 

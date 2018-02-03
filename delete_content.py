@@ -44,7 +44,7 @@ def sane_arguments(fire_input):
                 for i in result]
     return result
 
-def delete_content(subreddits, days_old):
+def delete_content(days_old, subreddits=None, all_subreddits=False):
     """The main function of this module, which deletes any submission or
     comment that resides in the [subreddits] and is at least [days_old]"""
     deleted = Counter()
@@ -58,7 +58,8 @@ def delete_content(subreddits, days_old):
     # Quering for comments
     for query in get_all_queries(me_redditor.comments):
         for comment in query(limit=None):
-            if ((str(comment.subreddit).lower() in subreddits_permitted)
+            if ((all_subreddits
+                    or str(comment.subreddit).lower() in subreddits_permitted)
                     and (is_days_old(get_date(comment), days_old))):
                 comment.delete()
                 deleted['comments'] += 1
@@ -68,7 +69,8 @@ def delete_content(subreddits, days_old):
     # Quering for submissions
     for query in get_all_queries(me_redditor.submissions):
         for submission in query(limit=None):
-            if ((str(submission.subreddit).lower() in subreddits_permitted)
+            if ((all_subreddits
+                    or str(submission.subreddit).lower() in subreddits_permitted)
                     and (is_days_old(get_date(submission), days_old))):
                 submission.delete()
                 deleted['submissions'] += 1

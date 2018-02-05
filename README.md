@@ -20,7 +20,7 @@ The scripts require python 3, and the following third party libraries:
 You can automatically install all the required package by using [pipenv](http://pipenv.readthedocs.io/en/latest/):
 
 ```bash
-pipenv install
+pipenv install --skip-lock
 ```
 
 Or you can install manually the required libraries:
@@ -34,6 +34,19 @@ pip3 install tendo
 ### Executing
 
 The main script is [delete_content.py](delete_content.py) and you can easily execute either with pipenv or just with python.
+
+The main usage is:
+```bash
+delete_content.py --days-old DAYS_OLD [--subreddits SUBREDDITS] [--all-subreddits]
+```
+
+Parameters:
+
+* days_old: This parameter is how old should the content be in order to be deleted.
+* subrreddits: In which subrredits is the script allowed to delete.
+* all_subreddits: If this parameter is present, then the script will delete content in all possible subreddits.
+
+Here there is an example.
 
 Pipenv:
 

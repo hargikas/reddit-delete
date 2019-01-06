@@ -50,6 +50,11 @@ def delete_content(days_old, subreddits=None, all_subreddits=False):
     deleted = Counter()
     sub_cnt = Counter()
     subreddits_permitted = sane_arguments(subreddits)
+    if all_subreddits:
+        print("Deleting Content in any subreddit!")
+    elif subreddits_permitted:
+        print("Deleting Content in Subreddits:", subreddits_permitted)
+    
 
     # Create the Reddit Instance based on the configuration (praw.ini)
     reddit = praw.Reddit("deletebot")
